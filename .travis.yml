@@ -1,0 +1,24 @@
+language: java
+
+#jdk:
+#  - oraclejdk8
+
+cache:
+    directories:
+        - $HOME/.m2
+
+services:
+  - mysql
+
+before_install:
+  - chmod +x mvnw
+
+after_success:
+  - mvn clean test
+#  - mvn clean test jacoco:report
+#  - mvn clean test jacoco:report coveralls:report
+
+
+#notifications:
+#  email:
+#    - yoann.caplain@blackdread.org

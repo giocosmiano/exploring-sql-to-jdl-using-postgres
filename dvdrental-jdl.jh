@@ -1,0 +1,196 @@
+entity Actor {
+	actorId Integer required,
+	firstName String required maxlength(255),
+	lastName String required maxlength(255),
+	lastUpdate Instant required
+}
+
+entity Address {
+	addressId Integer required,
+	address String required maxlength(255),
+	address2 String maxlength(255),
+	district String required maxlength(255),
+	postalCode String maxlength(255),
+	phone String required maxlength(255),
+	lastUpdate Instant required
+}
+
+entity Category {
+	categoryId Integer required,
+	name String required maxlength(255),
+	lastUpdate Instant required
+}
+
+entity City {
+	cityId Integer required,
+	city String required maxlength(255),
+	lastUpdate Instant required
+}
+
+entity Country {
+	countryId Integer required,
+	country String required maxlength(255),
+	lastUpdate Instant required
+}
+
+entity Customer {
+	customerId Integer required,
+	storeId Integer required,
+	firstName String required maxlength(255),
+	lastName String required maxlength(255),
+	email String maxlength(255),
+	activebool Boolean required,
+	createDate LocalDate required,
+	lastUpdate Instant,
+	active Integer
+}
+
+entity Film {
+	filmId Integer required,
+	title String required maxlength(255),
+	description String maxlength(255),
+	releaseYear Integer,
+	rentalDuration Integer required,
+	rentalRate BigDecimal required,
+	length Integer,
+	replacementCost BigDecimal required,
+	rating String maxlength(255),
+	lastUpdate Instant required,
+	specialFeatures String maxlength(255),
+	fulltext String required maxlength(255)
+}
+
+entity FilmActor {
+	lastUpdate Instant required
+}
+
+entity FilmCategory {
+	lastUpdate Instant required
+}
+
+entity Inventory {
+	inventoryId Integer required,
+	storeId Integer required,
+	lastUpdate Instant required
+}
+
+entity Language {
+	languageId Integer required,
+	name String required maxlength(255),
+	lastUpdate Instant required
+}
+
+entity Payment {
+	paymentId Integer required,
+	amount BigDecimal required,
+	paymentDate Instant required
+}
+
+entity Rental {
+	rentalId Integer required,
+	rentalDate Instant required,
+	returnDate Instant,
+	lastUpdate Instant required
+}
+
+entity Staff {
+	staffId Integer required,
+	firstName String required maxlength(255),
+	lastName String required maxlength(255),
+	email String maxlength(255),
+	storeId Integer required,
+	active Boolean required,
+	username String required maxlength(255),
+	password String maxlength(255),
+	lastUpdate Instant required,
+	picture Blob
+}
+
+entity Store {
+	storeId Integer required,
+	lastUpdate Instant required
+}
+
+
+
+// Relations
+relationship ManyToOne {
+	Address{city required} to City{address}
+}
+
+relationship ManyToOne {
+	City{country required} to Country{city}
+}
+
+relationship ManyToOne {
+	Customer{address required} to Address{customer}
+}
+
+relationship ManyToOne {
+	Film{language required} to Language{film}
+}
+
+relationship ManyToOne {
+	FilmActor{actor required} to Actor{filmActor}
+}
+
+relationship ManyToOne {
+	FilmActor{film required} to Film{filmActor}
+}
+
+relationship ManyToOne {
+	FilmCategory{film required} to Film{filmCategory}
+}
+
+relationship ManyToOne {
+	FilmCategory{category required} to Category{filmCategory}
+}
+
+relationship ManyToOne {
+	Inventory{film required} to Film{inventory}
+}
+
+relationship ManyToOne {
+	Payment{customer required} to Customer{payment}
+}
+
+relationship ManyToOne {
+	Payment{staff required} to Staff{payment}
+}
+
+relationship ManyToOne {
+	Payment{rental required} to Rental{payment}
+}
+
+relationship ManyToOne {
+	Rental{inventory required} to Inventory{rental}
+}
+
+relationship ManyToOne {
+	Rental{customer required} to Customer{rental}
+}
+
+relationship ManyToOne {
+	Rental{staff required} to Staff{rental}
+}
+
+relationship ManyToOne {
+	Staff{address required} to Address{staff}
+}
+
+relationship ManyToOne {
+	Store{managerStaff required} to Staff{store}
+}
+
+relationship ManyToOne {
+	Store{address required} to Address{store}
+}
+
+
+
+// Options
+service * with serviceClass
+paginate * with pagination
+dto * with mapstruct
+filter *
+

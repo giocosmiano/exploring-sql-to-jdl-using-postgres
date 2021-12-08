@@ -52,6 +52,15 @@ public class SqlJdlTypeService {
         }
     }
 
+    /**
+     * <p>
+     * @see <a href="https://www.postgresql.org/docs/current/information-schema.html">PostgreSQL Information Schema</a>
+     * @see <a href="https://www.postgresql.org/docs/current/infoschema-tables.html">PostgreSQL Information Schema Tables</a>
+     * @see <a href="https://www.postgresql.org/docs/current/infoschema-columns.html">PostgreSQL Information Schema Columns</a>
+     * </p>
+     * @param sqlType
+     * @return
+     */
     public JdlFieldEnum sqlTypeToJdlType(final String sqlType) {
         final String type = sqlType.toLowerCase();
 
@@ -124,6 +133,13 @@ public class SqlJdlTypeService {
             return JdlFieldEnum.JSON_AS_TEXT;
         }
 
+        // Run this query to see all different dataTypes from PostgreSQL dvdrental
+        // and add them below if not defined such as array, user-defined, tsvector etc.
+        // SELECT distinct data_type
+        //   FROM information_schema.columns
+        //  WHERE table_catalog = 'dvdrental'
+        //  and lower(table_schema) = 'public'
+        //  order by data_type;
         throw new IllegalStateException("Unknown type: " + type);
     }
 

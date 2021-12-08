@@ -62,14 +62,12 @@ public class InformationSchemaRepository {
                     " order by r.table_name, r.column_name \n"
                 , dbName, dbName))
             .fetch()
-            .map(r -> {
-
-             return new TableRelationInformation(
+            .map(r -> new TableRelationInformation(
                     (String) r.getValue(0),
                     (String) r.getValue(1),
                     (String) r.getValue(2),
-                    (String) r.getValue(3));
-            });
+                    (String) r.getValue(3))
+            );
         /*
         SELECT CONCAT(table_name) AS table_name, CONCAT(column_name) AS column_name, CONCAT(referenced_table_name)
         AS referenced_table_name, CONCAT(referenced_column_name) AS referenced_column_name
